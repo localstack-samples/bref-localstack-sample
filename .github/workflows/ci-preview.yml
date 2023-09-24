@@ -1,0 +1,23 @@
+name: Create PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Deploy Preview
+        # uses: LocalStack/setup-localstack@v0.1.2
+        uses: LocalStack/setup-localstack@pr-preview
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          localstack-api-key: ${{ secrets.LOCALSTACK_API_KEY }}
+          preview-cmd: |
+            npm install
+            npm run build
+            composer require bref/bref
+            php artisan key:generate
+            serverless deploy --stage dev
