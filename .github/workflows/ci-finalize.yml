@@ -2,7 +2,7 @@ name: Create PR Preview
 
 on:
   workflow_run:
-    workflows: ["Run CI Tests"]
+    workflows: ["Create PR Preview"]
     types:
       - completed
 
